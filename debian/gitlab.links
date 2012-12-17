@@ -1,0 +1,8 @@
+/etc/gitlab/gitlab.yml    /usr/share/gitlab/config/gitlab.yml
+/etc/gitlab/database.yml  /usr/share/gitlab/config/database.yml
+/etc/gitlab/environments  /usr/share/gitlab/config/environments
+/var/log/gitlab           /usr/share/gitlab/log
+/usr/share/doc/gitlab/doc /usr/share/gitlab/doc
+
+# FIXME: cache, locks and temporary files definitelly must be splitted
+/var/cache/gitlab         /usr/share/gitlab/tmp

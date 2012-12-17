@@ -1,0 +1,77 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          gitlab
+# Required-Start:    $remote_fs redis-server
+# Required-Stop:     $remote_fs redis-server
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Gitlab - Self Hosted Git Management
+# Description:       Fast, secure and stable solution based on Ruby on Rails &
+#                    Gitolite. 
+### END INIT INFO
+
+
+set -e
+
+NAME=gitlab
+DAEMONUSER=gitlab
+PIDDIR=/var/run/gitlab
+PIDFILE=$PIDDIR/unicorn.pid
+DESC=gitlab
+
+RUBY="/usr/bin/ruby1.9.1"
+UNICORN_RAILS="/usr/bin/bundle exec unicorn_rails"
+UNICORN_OPTS="-c /etc/gitlab/unicorn.rb -E production -D"
+
+
+. /lib/lsb/init-functions
+
+mkdir -p "$PIDDIR"
+chown gitlab:gitlab "$PIDDIR"
+
+
+gitlab_status() {
+  start-stop-daemon --stop --quiet --test --exec "$RUBY" --pidfile "$PIDFILE"
+}
+
+
+case "$1" in
+  start)
+    log_daemon_msg "Starting $DESC" "$NAME"
+
+    if ! gitlab_status; then
+      start-stop-daemon --start --chuid "$DAEMONUSER" \
+        --chdir /usr/share/gitlab --pidfile "$PIDFILE" \
+        --exec "$RUBY" -- $UNICORN_RAILS $UNICORN_OPTS
+      result="$?"
+    fi
+
+    log_end_msg $?
+    ;;
+
+  stop)
+    log_daemon_msg "Stoping $DESC" "$NAME"
+
+    start-stop-daemon --stop --quiet --oknodo --retry TERM/30/KILL/5 \
+      --exec "$RUBY" --pidfile "$PIDFILE"
+
+    log_end_msg $?
+    ;;
+
+  restart|reload|force-reload)
+    ${0} stop
+    ${0} start
+    ;;
+
+  status)
+    if gitlab_status; then
+      log_success_msg "$DESC is running"
+    else 
+      log_failure_msg "$DESC is not running"
+    fi
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart|reload|force-reload|status}" >&2
+    exit 3
+esac

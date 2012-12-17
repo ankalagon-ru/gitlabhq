@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "deb http://debian.fastlaneventures.ru/gitlab $DIST/" >/etc/apt/sources.list.d/gitlab.list
+apt-get update

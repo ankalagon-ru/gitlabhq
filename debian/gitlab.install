@@ -1,0 +1,26 @@
+app       usr/share/gitlab
+db        usr/share/gitlab
+lib       usr/share/gitlab
+public    usr/share/gitlab
+Rakefile  usr/share/gitlab
+VERSION   usr/share/gitlab
+
+vendor/assets   usr/share/gitlab/vendor
+vendor/plugins  usr/share/gitlab/vendor
+
+config/application.rb usr/share/gitlab/config
+config/boot.rb        usr/share/gitlab/config
+config/environment.rb usr/share/gitlab/config
+config/routes.rb      usr/share/gitlab/config
+config/initializers   usr/share/gitlab/config
+config/locales        usr/share/gitlab/config
+
+config/gitlab.yml.example usr/share/doc/gitlab
+config/database.yml.*     usr/share/doc/gitlab
+doc                       usr/share/doc/gitlab
+README.md                 usr/share/doc/gitlab
+
+debian/additions/gitlab.yml   etc/gitlab
+debian/additions/database.yml etc/gitlab
+debian/additions/unicorn.rb   etc/gitlab
+config/environments           etc/gitlab

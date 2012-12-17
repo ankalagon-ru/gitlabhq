@@ -1,0 +1,4 @@
+use-system-libraries.patch
+move-git-home.patch
+change-version.patch
+fix-default-ruby-encoding-for-squeeze.patch

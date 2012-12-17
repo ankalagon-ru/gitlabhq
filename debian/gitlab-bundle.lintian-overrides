@@ -1,0 +1,22 @@
+# There is very ugly package by design.
+# no need to fix lintian warning and errors
+
+arch-dependent-file-in-usr-share
+embedded-javascript-library
+embedded-library
+executable-not-elf-or-script
+extra-license-file
+hardening-no-fortify-functions
+hardening-no-relro
+incorrect-libdir-in-la-file
+interpreter-not-absolute
+missing-dep-for-interpreter
+package-contains-hardlink
+package-contains-vcs-control-dir
+package-contains-vcs-control-file
+python-script-but-no-python-dep
+ruby-script-but-no-ruby-dep
+script-not-executable
+shell-script-fails-syntax-check
+unusual-interpreter
+wrong-path-for-interpreter

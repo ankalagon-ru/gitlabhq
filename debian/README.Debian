@@ -1,0 +1,26 @@
+Gitlab for Debian
+-----------------
+
+1. Differences from upstream default installation.
+
+Users git and gitlab are system and their homedirs placed under /var/lib.
+
+Some ruby libraries used from system, not from gems in bundle. There is mysql,
+sqlite3 and eventmachine.
+
+Application code and data split:
+ - application root in /usr/share/gitlab
+ - config files in /etc/gitlab (symlinked to application root)
+ - database moved to /var/lib/gitlab
+ - temporary files in /var/cache/gitlab
+
+In default installation used sqlite3 database adapter. Database file is
+/var/lib/gitlab/production.sqlite3.
+
+For migrate from upstream default installation next steps required, but was not
+tested enough:
+ - remove git and gitlab users
+ - install package
+ - copy /home/git into /var/lib/git
+ - copy sqlite3 database
+ - check configfiles

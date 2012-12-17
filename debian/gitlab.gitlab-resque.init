@@ -1,0 +1,77 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          gitlab-resque
+# Required-Start:    $remote_fs redis-server gitlab
+# Required-Stop:     $remote_fs redis-server gitlab
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Gitlab - Self Hosted Git Management (background jobs)
+# Description:       Fast, secure and stable solution based on Ruby on Rails &
+#                    Gitolite. Daemon for process background jobs.
+### END INIT INFO
+
+
+set -e
+
+NAME=gitlab-resque
+DAEMONUSER=gitlab
+PIDDIR=/var/run/gitlab
+PIDFILE=$PIDDIR/resque.pid
+DESC=gitlab-resque
+
+RUBY="/usr/bin/ruby1.9.1"
+RAKE="/usr/bin/bundle exec rake"
+RAKE_OPTS="environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production"
+
+
+. /lib/lsb/init-functions
+
+mkdir -p "$PIDDIR"
+chown gitlab:gitlab "$PIDDIR"
+
+
+resque_status() {
+  start-stop-daemon --stop --quiet --test --exec "$RUBY" --pidfile "$PIDFILE"
+}
+
+
+case "$1" in
+  start)
+    log_daemon_msg "Starting $DESC" "$NAME"
+
+    if ! resque_status; then
+      start-stop-daemon --start --chuid "$DAEMONUSER" \
+        --chdir /usr/share/gitlab --pidfile "$PIDFILE" \
+        --exec "$RUBY" -- $RAKE $RAKE_OPTS PIDFILE="$PIDFILE" BACKGROUND=yes
+      result="$?"
+    fi
+
+    log_end_msg $?
+    ;;
+
+  stop)
+    log_daemon_msg "Stoping $DESC" "$NAME"
+
+    start-stop-daemon --stop --quiet --oknodo --retry TERM/30/KILL/5 \
+      --exec "$RUBY" --pidfile "$PIDFILE"
+
+    log_end_msg $?
+    ;;
+
+  restart|reload|force-reload)
+    ${0} stop
+    ${0} start
+    ;;
+
+  status)
+    if resque_status; then
+      log_success_msg "$DESC is running"
+    else 
+      log_failure_msg "$DESC is not running"
+    fi
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart|reload|force-reload|status}" >&2
+    exit 3
+esac

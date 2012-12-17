@@ -1,0 +1,37 @@
+gitlab (3.1.0-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Mon, 17 Dec 2012 00:39:13 +0400
+
+gitlab (3.0.1-2) unstable; urgency=low
+
+  * Fix path to documentation (thanks to Michael Moll).
+  * Fix $GL_GITCONFIG_KEYS in .gitolite.rc (thanks to Michael Moll).
+  * Fix unnecessary documentation compression (thanks to Michael Moll).
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Wed, 24 Oct 2012 10:20:53 +0400
+
+gitlab (3.0.1-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Wed, 24 Oct 2012 10:20:53 +0400
+
+gitlab (2.9.1-1) unstable; urgency=low
+
+  * New upstream release
+  * debian/additions/gitlab.yml:
+    + sync config with new upstream version.
+  * debian/gitlab.install, debian/gitlab.links:
+    + move environments configuration to /etc/gitlab.
+  * debian/gitlab.postinst:
+    + add stuff for upgrade gitlab from previous version
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Wed, 26 Sep 2012 02:09:36 +0400
+
+gitlab (2.8.2-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Wed, 12 Sep 2012 23:46:50 +0400

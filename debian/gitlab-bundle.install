@@ -1,0 +1,4 @@
+Gemfile usr/share/gitlab
+Gemfile.lock usr/share/gitlab
+vendor/bundle usr/share/gitlab/vendor
+.bundle/config usr/share/gitlab/.bundle

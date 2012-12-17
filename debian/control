@@ -1,0 +1,28 @@
+Source: gitlab
+Section: ruby
+Priority: optional
+Maintainer: Alexander Golovko <alexandro@ankalagon.ru>
+Build-Depends: debhelper (>= 7.0.50~), ruby1.9.1 (>= 1.9.2), ruby1.9.1-dev,
+ bundler, git, ruby-sqlite3 (>= 1.3.6), ruby-sqlite3 (<< 1.3.7),
+ ruby-charlock-holmes (>= 0.6.9), ruby-charlock-holmes (<< 0.6.10),
+ ruby-eventmachine (>= 0.12.10-3), python-pygments
+Standards-Version: 3.9.3
+Homepage: http://gitlabhq.com/
+
+Package: gitlab
+Architecture: all
+Pre-Depends: adduser
+Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.9.1 (>= 1.9.2), bundler,
+ gitolite (>= 2.3), exim4 | mail-transport-agent, redis-server,
+ gitlab-bundle (= ${binary:Version})
+Description: Self Hosted Git Management.
+ Fast, secure and stable solution based on Ruby on Rails & Gitolite. 
+
+Package: gitlab-bundle
+Architecture: any
+Depends: python-pygments, libpython2.7 | libpython2.6, ${shlibs:Depends},
+ ${misc:Depends}, ${systemgems:Depends}
+Description: Self Hosted Git Management - gems bundle.
+ Fast, secure and stable solution based on Ruby on Rails & Gitolite. 
+ .
+ This package contain bundle with ruby gems, requilred by gitlab
