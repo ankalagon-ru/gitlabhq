@@ -1,38 +1,17 @@
-diff --git a/lib/tasks/gitlab/status.rake b/lib/tasks/gitlab/status.rake
-index e5b5e12..43fac75 100644
---- a/lib/tasks/gitlab/status.rake
-+++ b/lib/tasks/gitlab/status.rake
-@@ -72,18 +72,21 @@ namespace :gitlab do
-         return
-       end
+diff --git a/lib/tasks/gitlab/check.rake b/lib/tasks/gitlab/check.rake
+index baa706d..47730a1 100644
+--- a/lib/tasks/gitlab/check.rake
++++ b/lib/tasks/gitlab/check.rake
+@@ -400,9 +400,9 @@ namespace :gitlab do
+       check_repo_base_permissions
+       check_can_clone_gitolite_admin
+       check_can_commit_to_gitolite_admin
+-      check_post_receive_hook_exists
+-      check_post_receive_hook_is_up_to_date
+-      check_repos_post_receive_hooks_is_link
++      #check_post_receive_hook_exists
++      #check_post_receive_hook_is_up_to_date
++      #check_repos_post_receive_hooks_is_link
+       check_repos_git_config
  
--      gitolite_hooks_path = File.join(Gitlab.config.git_hooks_path, "common")
--      gitlab_hook_files = ['post-receive']
--      gitlab_hook_files.each do |file_name|
--        dest = File.join(gitolite_hooks_path, file_name)
--        print "#{dest} exists? ............"
--        if File.exists?(dest)
--          puts "YES".green
--        else
--          puts "NO".red
--          return
--        end
--      end
-+      #
-+      # Impossible to check - this hook placed in ~git/.gitolite, available only for git user
-+      #
-+      #gitolite_hooks_path = File.join(Gitlab.config.git_hooks_path, "common")
-+      #gitlab_hook_files = ['post-receive']
-+      #gitlab_hook_files.each do |file_name|
-+      #  dest = File.join(gitolite_hooks_path, file_name)
-+      #  print "#{dest} exists? ............"
-+      #  if File.exists?(dest)
-+      #    puts "YES".green
-+      #  else
-+      #    puts "NO".red
-+      #    return
-+      #  end
-+      #end
- 
-       if Project.count > 0
-         puts "\nValidating projects repositories:".yellow
+       finished_checking "Gitolite"

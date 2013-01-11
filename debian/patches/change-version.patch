@@ -8,8 +8,8 @@ index dedcc7d..d4a2deb 100644
 --- a/VERSION
 +++ b/VERSION
 @@ -1 +1 @@
--3.1.0
-+3.1.0-1
+-4.0.0
++4.0.0-1
 diff --git a/config/initializers/2_app.rb b/config/initializers/2_app.rb
 index fc97960..3bd10ce 100644
 --- a/config/initializers/2_app.rb
@@ -18,7 +18,7 @@ index fc97960..3bd10ce 100644
  module Gitlab
    Version = File.read(Rails.root.join("VERSION"))
 -  Revision = `git log --pretty=format:'%h' -n 1`
-+  Revision = 'ced242a'
++  Revision = '6a932d0'
  
    def self.config
      Settings 

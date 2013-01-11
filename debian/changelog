@@ -1,3 +1,9 @@
+gitlab (4.0.0-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Fri, 11 Jan 2013 15:44:41 +0400
+
 gitlab (3.1.0-1) unstable; urgency=low
 
   * New upstream release.
