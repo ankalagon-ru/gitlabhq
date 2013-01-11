@@ -1,6 +1,6 @@
 #!/bin/sh
 
-apt-get install -fyy apt-transport-https
-echo 'Acquire::https::raw.github.com::Verify-Peer "false";' >/etc/apt/apt.conf.d/60gitlab
-echo "deb https://raw.github.com/ankalagon-ru/gitlabhq/binary $DIST/" >/etc/apt/sources.list.d/gitlab.list
+#apt-get install -fyy apt-transport-https
+#echo 'Acquire::https::raw.github.com::Verify-Peer "false";' >/etc/apt/apt.conf.d/60gitlab
+echo "deb http://debian.fastlaneventures.ru/gitlab $DIST/" >/etc/apt/sources.list.d/gitlab.list
 apt-get update
