@@ -1,5 +1,6 @@
 add-sqlite3-support.patch
 use-system-libraries.patch
+up-rails-version.patch
 move-git-home.patch
 change-version.patch
 fix-default-ruby-encoding-for-squeeze.patch

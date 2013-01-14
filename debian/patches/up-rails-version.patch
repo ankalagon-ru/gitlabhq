@@ -1,0 +1,105 @@
+Update rails version from 3.2.9 to 3.2.11 due to security issues
+
+diff --git a/Gemfile b/Gemfile
+index fc21146..1480ad5 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -14,7 +14,7 @@ def linux_only(require_as)
+   RUBY_PLATFORM.include?('linux') && require_as
+ end
+ 
+-gem "rails", "3.2.9"
++gem "rails", "3.2.11"
+ 
+ # Supported DBs
+ gem "sqlite3", group: :sqlite
+diff --git a/Gemfile.lock b/Gemfile.lock
+index b7f1178..713c47a 100644
+--- a/Gemfile.lock
++++ b/Gemfile.lock
+@@ -81,12 +81,12 @@ GIT
+ GEM
+   remote: http://rubygems.org/
+   specs:
+-    actionmailer (3.2.9)
+-      actionpack (= 3.2.9)
++    actionmailer (3.2.11)
++      actionpack (= 3.2.11)
+       mail (~> 2.4.4)
+-    actionpack (3.2.9)
+-      activemodel (= 3.2.9)
+-      activesupport (= 3.2.9)
++    actionpack (3.2.11)
++      activemodel (= 3.2.11)
++      activesupport (= 3.2.11)
+       builder (~> 3.0.0)
+       erubis (~> 2.7.0)
+       journey (~> 1.0.4)
+@@ -94,18 +94,18 @@ GEM
+       rack-cache (~> 1.2)
+       rack-test (~> 0.6.1)
+       sprockets (~> 2.2.1)
+-    activemodel (3.2.9)
+-      activesupport (= 3.2.9)
++    activemodel (3.2.11)
++      activesupport (= 3.2.11)
+       builder (~> 3.0.0)
+-    activerecord (3.2.9)
+-      activemodel (= 3.2.9)
+-      activesupport (= 3.2.9)
++    activerecord (3.2.11)
++      activemodel (= 3.2.11)
++      activesupport (= 3.2.11)
+       arel (~> 3.0.2)
+       tzinfo (~> 0.3.29)
+-    activeresource (3.2.9)
+-      activemodel (= 3.2.9)
+-      activesupport (= 3.2.9)
+-    activesupport (3.2.9)
++    activeresource (3.2.11)
++      activemodel (= 3.2.11)
++      activesupport (= 3.2.11)
++    activesupport (3.2.11)
+       i18n (~> 0.6)
+       multi_json (~> 1.0)
+     acts-as-taggable-on (2.3.3)
+@@ -319,20 +319,20 @@ GEM
+       rack
+     rack-test (0.6.2)
+       rack (>= 1.0)
+-    rails (3.2.9)
+-      actionmailer (= 3.2.9)
+-      actionpack (= 3.2.9)
+-      activerecord (= 3.2.9)
+-      activeresource (= 3.2.9)
+-      activesupport (= 3.2.9)
++    rails (3.2.11)
++      actionmailer (= 3.2.11)
++      actionpack (= 3.2.11)
++      activerecord (= 3.2.11)
++      activeresource (= 3.2.11)
++      activesupport (= 3.2.11)
+       bundler (~> 1.0)
+-      railties (= 3.2.9)
++      railties (= 3.2.11)
+     rails-dev-tweaks (0.6.1)
+       actionpack (~> 3.1)
+       railties (~> 3.1)
+-    railties (3.2.9)
+-      actionpack (= 3.2.9)
+-      activesupport (= 3.2.9)
++    railties (3.2.11)
++      actionpack (= 3.2.11)
++      activesupport (= 3.2.11)
+       rack-ssl (~> 1.3.2)
+       rake (>= 0.8.7)
+       rdoc (~> 3.4)
+@@ -499,7 +499,7 @@ DEPENDENCIES
+   pygments.rb!
+   quiet_assets (~> 1.0.1)
+   rack-mini-profiler
+-  rails (= 3.2.9)
++  rails (= 3.2.11)
+   rails-dev-tweaks
+   raphael-rails (= 1.5.2)
+   rb-fsevent
