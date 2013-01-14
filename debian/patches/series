@@ -1,3 +1,4 @@
+add-sqlite3-support.patch
 use-system-libraries.patch
 move-git-home.patch
 change-version.patch
