@@ -114,7 +114,7 @@ case "$1" in
 
     else
       echo "Upgrading gitlab..."
-      if dpkg --compare-versions "$2" -le "3.0.1-1"; then
+      if dpkg --compare-versions "$2" le "3.0.1-1"; then
         sed -i \
           -e 's/^\$GL_GITCONFIG_KEYS = "";/$GL_GITCONFIG_KEYS = ".*";/' \
           /var/lib/git/.gitolite.rc
