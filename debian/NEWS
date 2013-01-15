@@ -1,0 +1,9 @@
+gitlab (4.0.0-2) unstable; urgency=low
+
+  Significant changes since versions before 4.0.0-2:
+
+  * Enabled namespaces:
+    All projects in groups moved to subdirectories. You may need update remote
+    url in cloned repositories.
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Tue, 15 Jan 2013 11:05:01 +0400

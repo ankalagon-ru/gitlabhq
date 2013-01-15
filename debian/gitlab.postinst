@@ -3,6 +3,11 @@
 set -e
 
 
+exec_rake() {
+  su -c "cd /usr/share/gitlab; ruby1.9.1 \"\$(which bundle)\" exec rake \
+    $* RAILS_ENV=production" -s /bin/sh gitlab
+}
+
 # FIXME: add stuff for check if gitlab already installed not from package
 add_users() {
   echo "Adding required users..."
@@ -48,7 +53,7 @@ setup_gitolite() {
     -e 's/^\$REPO_UMASK = 0077;/$REPO_UMASK = 0007;/' \
     -e 's/^\$GL_GITCONFIG_KEYS = "";/$GL_GITCONFIG_KEYS = ".*";/' \
     /var/lib/git/.gitolite.rc
-  chmod g+rwX -R /var/lib/git/repositories
+  chmod g+rwXs -R /var/lib/git/repositories
 
   # add gitlab post-receive hook
   hook="/var/lib/git/.gitolite/hooks/common/post-receive"
@@ -109,8 +114,7 @@ case "$1" in
 
       # setup database
       echo "Configuring gitlab..."
-      su -c 'cd /usr/share/gitlab; ruby1.9.1 "$(which bundle)" exec rake \
-        gitlab:app:setup RAILS_ENV=production' -s /bin/sh gitlab
+      exec_rake gitlab:app:setup
 
     else
       echo "Upgrading gitlab..."
@@ -119,9 +123,16 @@ case "$1" in
           -e 's/^\$GL_GITCONFIG_KEYS = "";/$GL_GITCONFIG_KEYS = ".*";/' \
           /var/lib/git/.gitolite.rc
       fi
-      su -c 'cd /usr/share/gitlab; ruby1.9.1 "$(which bundle)" exec rake \
-        db:migrate RAILS_ENV=production SCHEMA="/var/lib/gitlab/schema.rb"' \
-        -s /bin/sh gitlab
+      if dpkg --compare-versions "$2" le "4.0.0-1"; then
+        chmod g+rwXs -R /var/lib/git/repositories
+        chown :git -R /var/lib/git/repositories
+      fi
+
+      exec_rake db:migrate SCHEMA="/var/lib/gitlab/schema.rb"
+
+      if dpkg --compare-versions "$2" le "4.0.0-1"; then
+        exec_rake gitlab:enable_namespaces
+      fi
     fi
     ;;
 esac
