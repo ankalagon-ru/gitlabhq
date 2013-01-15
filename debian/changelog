@@ -3,7 +3,7 @@ gitlab (4.0.0-2) unstable; urgency=low
   * Fix converting groups to namespaces.
   * Fix resque start.
 
- -- 
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Tue, 15 Jan 2013 12:11:07 +0400
 
 gitlab (4.0.0-1) unstable; urgency=low
 
