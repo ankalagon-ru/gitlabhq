@@ -1,6 +1,7 @@
 gitlab (4.0.0-2) unstable; urgency=low
 
   * Fix converting groups to namespaces.
+  * Fix resque start.
 
  -- 
 

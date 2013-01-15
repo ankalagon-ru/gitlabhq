@@ -40,9 +40,9 @@ case "$1" in
     log_daemon_msg "Starting $DESC" "$NAME"
 
     if ! resque_status; then
-      start-stop-daemon --start --chuid "$DAEMONUSER" \
+      start-stop-daemon --start --background --chuid "$DAEMONUSER" \
         --chdir /usr/share/gitlab --pidfile "$PIDFILE" \
-        --exec "$RUBY" -- $RAKE $RAKE_OPTS PIDFILE="$PIDFILE" BACKGROUND=yes
+        --exec "$RUBY" -- $RAKE $RAKE_OPTS PIDFILE="$PIDFILE"
       result="$?"
     fi
 
