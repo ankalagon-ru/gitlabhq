@@ -15,6 +15,7 @@ gitlab:
 
   ## Email settings
   # Email address used in the "From" field in mails sent by GitLab
+  # Do not forget to change it in /etc/gitlab/gitconfig too...
   email_from: gitlab@localhost
 
   ## Project settings
