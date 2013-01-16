@@ -1,3 +1,12 @@
+gitlab (4.0.0-3) unstable; urgency=low
+
+  * d/additions/.profile, d/gitlab.install:
+    + Add .profile with usefull by git hooks env variables.
+  * d/additions/.gitconfig, d/gitlab.install:
+    + Add .gitconfig for gitlab user.
+
+ -- 
+
 gitlab (4.0.0-2) unstable; urgency=low
 
   * Fix converting groups to namespaces.
