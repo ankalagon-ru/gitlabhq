@@ -1,6 +1,7 @@
 /etc/gitlab/gitlab.yml    /usr/share/gitlab/config/gitlab.yml
 /etc/gitlab/database.yml  /usr/share/gitlab/config/database.yml
 /etc/gitlab/environments  /usr/share/gitlab/config/environments
+/etc/gitlab/gitconfig     /var/lib/gitlab/.gitconfig
 /var/log/gitlab           /usr/share/gitlab/log
 /usr/share/doc/gitlab/doc /usr/share/gitlab/doc
 
