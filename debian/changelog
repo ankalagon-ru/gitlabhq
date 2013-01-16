@@ -8,6 +8,8 @@ gitlab (4.0.0-3) unstable; urgency=low
     + Fix incorrect upstream python path.
   * d/additions/gitlab.yml:
     + Update config to recent version.
+  * d/patches/fix-checks.patch, d/patches/series:
+    + Fix some debian-specific app state checks.
 
  -- 
 
