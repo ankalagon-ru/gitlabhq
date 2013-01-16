@@ -53,7 +53,8 @@ setup_gitolite() {
     -e 's/^\$REPO_UMASK = 0077;/$REPO_UMASK = 0007;/' \
     -e 's/^\$GL_GITCONFIG_KEYS = "";/$GL_GITCONFIG_KEYS = ".*";/' \
     /var/lib/git/.gitolite.rc
-  chmod g+rwXs -R /var/lib/git/repositories
+  chmod u=rwX,g=rwX,o= -R /var/lib/git/repositories
+  find /car/lib/git/repositories -type d -exec chmod ug+s '{}' ';'
 
   # add gitlab post-receive hook
   hook="/var/lib/git/.gitolite/hooks/common/post-receive"
@@ -123,15 +124,20 @@ case "$1" in
           -e 's/^\$GL_GITCONFIG_KEYS = "";/$GL_GITCONFIG_KEYS = ".*";/' \
           /var/lib/git/.gitolite.rc
       fi
-      if dpkg --compare-versions "$2" le "4.0.0-1"; then
-        chmod g+rwXs -R /var/lib/git/repositories
-        chown :git -R /var/lib/git/repositories
+
+      # fix permissions
+      if dpkg --compare-versions "$2" le "4.0.0-2"; then
+        chown git:git -R /var/lib/git/repositories
+        chmod u=rwX,g=rwX,o= -R /var/lib/git/repositories
+        find /var/lib/git/repositories -type d -exec chmod ug+s '{}' ';'
       fi
 
       exec_rake db:migrate SCHEMA="/var/lib/gitlab/schema.rb"
 
-      if dpkg --compare-versions "$2" le "4.0.0-1"; then
+      if dpkg --compare-versions "$2" le "4.0.0-2"; then
         exec_rake gitlab:enable_namespaces
+        exec_rake gitlab:gitolite:update_repos
+        exec_rake gitlab:satellites:create
       fi
     fi
     ;;

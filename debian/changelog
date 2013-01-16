@@ -10,6 +10,10 @@ gitlab (4.0.0-3) unstable; urgency=low
     + Update config to recent version.
   * d/patches/fix-checks.patch, d/patches/series:
     + Fix some debian-specific app state checks.
+  * d/gitlab.postinst:
+    + Fix repo permissions
+    + Enable sattelite repositories
+    + Update git configs
 
  -- 
 
