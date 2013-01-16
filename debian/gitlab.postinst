@@ -53,8 +53,9 @@ setup_gitolite() {
     -e 's/^\$REPO_UMASK = 0077;/$REPO_UMASK = 0007;/' \
     -e 's/^\$GL_GITCONFIG_KEYS = "";/$GL_GITCONFIG_KEYS = ".*";/' \
     /var/lib/git/.gitolite.rc
+  chmod 0750 /var/lib/git/.gitolite
   chmod u=rwX,g=rwX,o= -R /var/lib/git/repositories
-  find /car/lib/git/repositories -type d -exec chmod ug+s '{}' ';'
+  find /var/lib/git/repositories -type d -exec chmod ug+s '{}' ';'
 
   # add gitlab post-receive hook
   hook="/var/lib/git/.gitolite/hooks/common/post-receive"
@@ -130,6 +131,7 @@ case "$1" in
         chown git:git -R /var/lib/git/repositories
         chmod u=rwX,g=rwX,o= -R /var/lib/git/repositories
         find /var/lib/git/repositories -type d -exec chmod ug+s '{}' ';'
+        chmod 0750 /var/lib/git/.gitolite
       fi
 
       exec_rake db:migrate SCHEMA="/var/lib/gitlab/schema.rb"

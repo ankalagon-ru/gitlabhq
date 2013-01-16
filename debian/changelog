@@ -10,10 +10,13 @@ gitlab (4.0.0-3) unstable; urgency=low
     + Update config to recent version.
   * d/patches/fix-checks.patch, d/patches/series:
     + Fix some debian-specific app state checks.
+  * d/patches/move-git-home.patch, d/patches/series:
+    - Remove unrequired due to changed permissions patch.
   * d/gitlab.postinst:
-    + Fix repo permissions
-    + Enable sattelite repositories
-    + Update git configs
+  * d/gitlab.postinst:
+    + Fix repo and gitolite permissions.
+    + Enable sattelite repositories.
+    + Update git configs.
 
  -- 
 
