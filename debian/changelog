@@ -6,6 +6,8 @@ gitlab (4.0.0-3) unstable; urgency=low
     + Add .gitconfig for gitlab user.
   * d/patches/fix-python-path.patch, d/patches/series:
     + Fix incorrect upstream python path.
+  * d/additions/gitlab.yml:
+    + Update config to recent version.
 
  -- 
 
