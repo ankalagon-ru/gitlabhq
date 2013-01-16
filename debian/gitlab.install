@@ -26,4 +26,4 @@ debian/additions/unicorn.rb   etc/gitlab
 config/environments           etc/gitlab
 
 debian/additions/.profile  var/lib/git
-debian/additions/.gitconfig  var/lib/git
+debian/additions/.gitconfig  var/lib/gitlab
