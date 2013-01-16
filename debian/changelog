@@ -4,6 +4,8 @@ gitlab (4.0.0-3) unstable; urgency=low
     + Add .profile with usefull by git hooks env variables.
   * d/additions/.gitconfig, d/gitlab.install:
     + Add .gitconfig for gitlab user.
+  * d/patches/fix-python-path.patch, d/patches/series:
+    + Fix incorrect upstream python path.
 
  -- 
 

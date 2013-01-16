@@ -1,0 +1,39 @@
+diff --git a/lib/tasks/gitlab/check.rake b/lib/tasks/gitlab/check.rake
+index baa706d..3e1771d 100644
+--- a/lib/tasks/gitlab/check.rake
++++ b/lib/tasks/gitlab/check.rake
+@@ -256,8 +256,8 @@ namespace :gitlab do
+       check_gitlab_in_git_group
+       check_issue_1056_shell_profile_error
+       check_gitlab_git_config
+-      check_python2_exists
+-      check_python2_version
++      #check_python_exists
++      check_python_version
+ 
+       finished_checking "Environment"
+     end
+@@ -354,18 +354,18 @@ namespace :gitlab do
+       end
+     end
+ 
+-    def check_python2_version
+-      print "python2 is supported version? ... "
++    def check_python_version
++      print "python is supported version? ... "
+ 
+       # Python prints its version to STDERR
+-      # so we can't just use run("python2 --version")
++      # so we can't just use run("python --version")
+ 
+-      unless run_and_match("which python2", /python2$/)
++      unless run_and_match("which python", /python$/)
+         puts "can't check because of previous errors".magenta
+         return
+       end
+ 
+-      if `python2 --version 2>&1` =~ /2\.[567]\.\d/
++      if `python --version 2>&1` =~ /2\.[567]\.\d/
+         puts "yes".green
+       else
+         puts "no".red
