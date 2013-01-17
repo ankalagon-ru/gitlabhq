@@ -1,5 +1,5 @@
 diff --git a/lib/tasks/gitlab/check.rake b/lib/tasks/gitlab/check.rake
-index baa706d..142e1a1 100644
+index baa706d..2323e48 100644
 --- a/lib/tasks/gitlab/check.rake
 +++ b/lib/tasks/gitlab/check.rake
 @@ -20,8 +20,8 @@ namespace :gitlab do
@@ -13,6 +13,15 @@ index baa706d..142e1a1 100644
        check_satellites_exist
  
        finished_checking "GitLab"
+@@ -389,7 +389,7 @@ namespace :gitlab do
+       warn_user_is_not_gitlab
+       start_checking "Gitolite"
+ 
+-      check_gitolite_is_up_to_date
++      #check_gitolite_is_up_to_date
+       check_gitoliterc_repo_umask
+       check_gitoliterc_git_config_keys
+       check_dot_gitolite_exists
 @@ -566,7 +566,7 @@ namespace :gitlab do
                      else
                        # assume older version
