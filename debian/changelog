@@ -21,7 +21,7 @@ gitlab (4.0.0-3) unstable; urgency=low
     + Enable sattelite repositories.
     + Update git configs.
 
- -- 
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Thu, 17 Jan 2013 10:38:30 +0400
 
 gitlab (4.0.0-2) unstable; urgency=low
 
