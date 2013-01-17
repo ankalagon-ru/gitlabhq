@@ -9,7 +9,7 @@ index dedcc7d..d4a2deb 100644
 +++ b/VERSION
 @@ -1 +1 @@
 -4.0.0
-+4.0.0-1
++4.0.0-4
 diff --git a/config/initializers/2_app.rb b/config/initializers/2_app.rb
 index fc97960..3bd10ce 100644
 --- a/config/initializers/2_app.rb

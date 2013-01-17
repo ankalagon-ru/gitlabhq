@@ -6,7 +6,7 @@ gitlab (4.0.0-4) unstable; urgency=low
     + fix /var/lib/{git,gitlab} directories permissions.
     + fix package installation from directory without access for gitlab user.
 
- -- 
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Fri, 18 Jan 2013 02:04:35 +0400
 
 gitlab (4.0.0-3) unstable; urgency=low
 
