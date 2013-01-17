@@ -20,6 +20,8 @@ gitlab (4.0.0-3) unstable; urgency=low
     + Fix repo and gitolite permissions.
     + Enable sattelite repositories.
     + Update git configs.
+  * d/rules:
+    + Fix python path.
 
  -- Alexander Golovko <alexandro@ankalagon.ru>  Thu, 17 Jan 2013 10:38:30 +0400
 
