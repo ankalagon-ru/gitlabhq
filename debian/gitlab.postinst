@@ -80,8 +80,8 @@ setup_gitolite() {
   fi
 
   # test if we can clone 
-  if ! su -c 'git clone -qs git@localhost:gitolite-admin.git \
-    /var/cache/gitlab/test-gitolite-admin' -s /bin/sh gitlab;
+  if ! su -c 'cd /var/cache/gitlab; git clone -qs \
+    git@localhost:gitolite-admin.git test-gitolite-admin' -s /bin/sh gitlab;
   then
     rm -rf /var/cache/gitlab/test-gitolite-admin
     echo "Gitolite configuration failed: can't clone gitolite-admin repo" >&2
@@ -92,6 +92,12 @@ setup_gitolite() {
 
 
 create_dirs() {
+  # create dirs that can be removed before reinstall package
+  # and fix owner of directories with symlinks
+  mkdir -p /var/lib/git /var/lib/gitlab
+  chown git:git /var/lib/git
+  chown gitlab:gitlab /var/lib/gitlab
+
   # create log directory
   mkdir -p /var/log/gitlab
   chown gitlab:adm /var/log/gitlab

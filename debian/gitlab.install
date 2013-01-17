@@ -27,4 +27,3 @@ config/environments           etc/gitlab
 debian/additions/gitconfig    etc/gitlab
 
 debian/additions/.profile   var/lib/git
-debian/additions/ssh/config var/lib/gitlab/.ssh

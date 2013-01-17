@@ -1,3 +1,13 @@
+gitlab (4.0.0-4) unstable; urgency=low
+ 
+  * d/additions/ssh
+    - do not install ~gitlab/.ssh/config.
+  * d/additions/gitlab.postinst:
+    + fix /var/lib/{git,gitlab} directories permissions.
+    + fix package installation from directory without access for gitlab user.
+
+ -- 
+
 gitlab (4.0.0-3) unstable; urgency=low
 
   * d/additions/.profile, d/gitlab.install:
