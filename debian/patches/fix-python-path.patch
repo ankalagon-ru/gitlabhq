@@ -2,9 +2,9 @@ diff --git a/lib/tasks/gitlab/check.rake b/lib/tasks/gitlab/check.rake
 index baa706d..3e1771d 100644
 --- a/lib/tasks/gitlab/check.rake
 +++ b/lib/tasks/gitlab/check.rake
-@@ -256,8 +256,8 @@ namespace :gitlab do
+@@ -258,8 +258,8 @@ namespace :gitlab do
        check_gitlab_in_git_group
-       check_issue_1056_shell_profile_error
+       check_issue_1059_shell_profile_error
        check_gitlab_git_config
 -      check_python2_exists
 -      check_python2_version
@@ -13,7 +13,7 @@ index baa706d..3e1771d 100644
  
        finished_checking "Environment"
      end
-@@ -354,18 +354,18 @@ namespace :gitlab do
+@@ -358,18 +358,18 @@ namespace :gitlab do
        end
      end
  

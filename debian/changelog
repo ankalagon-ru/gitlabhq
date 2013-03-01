@@ -1,3 +1,9 @@
+gitlab (4.2.0-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Sat, 02 Mar 2013 02:29:05 +0400
+
 gitlab (4.0.0-4) unstable; urgency=low
  
   * d/additions/ssh
