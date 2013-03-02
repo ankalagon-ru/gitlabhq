@@ -8,10 +8,6 @@ SYSTEM_GEMS := ruby-eventmachine ruby-sqlite3 ruby-charlock-holmes bundler
 %:
 	dh $@
 
-override_dh_installinit:
-	dh_installinit -pgitlab --name gitlab
-	dh_installinit -pgitlab --name gitlab-resque
-
 override_dh_auto_build:
 	mkdir -p vendor/bundle/ruby/1.9.1/specifications
 	for pkg in $(SYSTEM_GEMS); do \
