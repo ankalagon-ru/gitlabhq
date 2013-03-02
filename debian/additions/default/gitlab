@@ -1,0 +1,14 @@
+# This is the configuration file for /etc/init.d/gitlab
+
+# Path to ruby interpretator
+# It's recommended to use 1.9.3
+#
+# RUBY=/usr/bin/ruby1.9.1
+
+# Additional options for unicorn
+#
+# UNICORN_OPTS=
+
+# Additional options for sidekiq
+#
+# SIDEKIQ_OPTS=

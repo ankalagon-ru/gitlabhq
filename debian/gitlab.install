@@ -20,6 +20,8 @@ config/database.yml.*     usr/share/doc/gitlab
 doc                       usr/share/doc/gitlab
 README.md                 usr/share/doc/gitlab
 
+debian/additions/default/gitlab etc/default
+
 debian/additions/gitlab.yml   etc/gitlab
 debian/additions/database.yml etc/gitlab
 debian/additions/unicorn.rb   etc/gitlab
