@@ -16,12 +16,14 @@ set -e
 NAME=gitlab
 DAEMONUSER=gitlab
 PIDDIR=/var/run/gitlab
-PIDFILE=$PIDDIR/unicorn.pid
 DESC=gitlab
 
+
 RUBY="/usr/bin/ruby1.9.1"
-UNICORN_RAILS="/usr/bin/bundle exec unicorn_rails"
-UNICORN_OPTS="-c /etc/gitlab/unicorn.rb -E production -D"
+UNICORN_PIDFILE="$PIDDIR/unicorn.pid"
+UNICORN_OPTS=""
+SIDEKIQ_PIDFILE="$PIDDIR/sidekiq.pid"
+SIDEKIQ_OPTS=""
 
 
 . /lib/lsb/init-functions
@@ -29,31 +31,107 @@ UNICORN_OPTS="-c /etc/gitlab/unicorn.rb -E production -D"
 mkdir -p "$PIDDIR"
 chown gitlab:gitlab "$PIDDIR"
 
+if [ -e /etc/default/gitlab ]; then
+  . /etc/default/gitlab
+fi
 
-gitlab_status() {
-  start-stop-daemon --stop --quiet --test --exec "$RUBY" --pidfile "$PIDFILE"
+
+unicorn_status() {
+  start-stop-daemon --stop --quiet --test --exec "$RUBY" --pidfile "$UNICORN_PIDFILE"
+}
+
+unicorn_start() {
+  if ! unicorn_status; then
+    start-stop-daemon --start --chuid "$DAEMONUSER" \
+      --chdir /usr/share/gitlab --pidfile "$UNICORN_PIDFILE" \
+      --exec "$RUBY" -- \
+        /usr/bin/bundle exec unicorn_rails -c /etc/gitlab/unicorn.rb \
+        -E production -D $UNICORN_OPTS
+  fi
+}
+
+unicorn_stop() {
+  start-stop-daemon --stop --quiet --oknodo --retry TERM/30/KILL/5 \
+    --exec "$RUBY" --pidfile "$UNICORN_PIDFILE"
+}
+
+sidekiq_status() {
+  start-stop-daemon --stop --quiet --test --exec "$RUBY" --pidfile "$SIDEKIQ_PIDFILE"
+}
+
+sidekiq_start() {
+  if ! sidekiq_status; then
+    start-stop-daemon --start --background --chuid "$DAEMONUSER" \
+      --chdir /usr/share/gitlab --pidfile "$SIDEKIQ_PIDFILE" \
+      --exec "$RUBY" -- \
+        /usr/bin/bundle exec sidekiq \
+        -q post_receive,mailer,system_hook,project_web_hook,gitolite,common,default \
+        -e production -P "$SIDEKIQ_PIDFILE" -L /var/log/gitlab/sidekiq.log \
+        $SIDEKIQ_OPTIONS
+  fi
+}
+
+sidekiq_stop() {
+  start-stop-daemon --stop --quiet --oknodo --retry TERM/30/KILL/5 \
+    --exec "$RUBY" --pidfile "$SIDEKIQ_PIDFILE"
 }
 
 
 case "$1" in
   start)
-    log_daemon_msg "Starting $DESC" "$NAME"
+    log_daemon_msg "Starting GitLab"
+    
+    if [ -z "$2" ]; then
+      log_progress_msg "unicorn"
+      if ! unicorn_start; then
+        log_end_msg 1
+        exit 1
+      fi
 
-    if ! gitlab_status; then
-      start-stop-daemon --start --chuid "$DAEMONUSER" \
-        --chdir /usr/share/gitlab --pidfile "$PIDFILE" \
-        --exec "$RUBY" -- $UNICORN_RAILS $UNICORN_OPTS
-      result="$?"
+      log_progress_msg "sidekiq"
+      if ! sidekiq_start; then
+        log_end_msg 1
+        exit 1
+      fi
+    elif [ "$2" = "unicorn" ]; then
+      log_progress_msg "unicorn"
+      if ! unicorn_start; then
+        log_end_msg 1
+        exit 1
+      fi
+    elif [ "$2" = "sidekiq" ]; then
+      log_progress_msg "sidekiq"
+      if ! sidekiq_start; then
+        log_end_msg 1
+        exit 1
+      fi
+    else
+      log_end_msg 1
+      exit 3
     fi
 
-    log_end_msg $?
+    log_end_msg 0
     ;;
 
   stop)
-    log_daemon_msg "Stoping $DESC" "$NAME"
+    log_daemon_msg "Stoping GitLab"
+    result=0
 
-    start-stop-daemon --stop --quiet --oknodo --retry TERM/30/KILL/5 \
-      --exec "$RUBY" --pidfile "$PIDFILE"
+    if [ -z "$2" ]; then
+      log_progress_msg "unicorn"
+      unicorn_stop || result=255
+
+      log_progress_msg "sidekiq"
+      sidekiq_stop || result=255
+    elif [ "$2" = "unicorn" ]; then
+      log_progress_msg "unicorn"
+      unicorn_stop || result=255
+    elif [ "$2" = "sidekiq" ]; then
+      log_progress_msg "sidekiq"
+      sidekiq_stop || result=255
+    else
+      result=3
+    fi
 
     log_end_msg $?
     ;;
@@ -64,11 +142,40 @@ case "$1" in
     ;;
 
   status)
-    if gitlab_status; then
-      log_success_msg "$DESC is running"
-    else 
-      log_failure_msg "$DESC is not running"
+    result=0
+    if [ -z "$2" ]; then
+      if unicorn_status; then
+        log_success_msg "GitLab status: unicorn is running"
+      else 
+        log_failure_msg "GitLab status: unicorn is not running"
+        result=1
+      fi
+
+      if sidekiq_status; then
+        log_success_msg "GitLab status: sidekiq is running"
+      else 
+        log_failure_msg "GitLab status: sidekiq is not running"
+        result=1
+      fi
+    elif [ "$2" = "unicorn" ]; then
+      if unicorn_status; then
+        log_success_msg "GitLab status: unicorn is running"
+      else 
+        log_failure_msg "GitLab status: unicorn is not running"
+        result=1
+      fi
+    elif [ "$2" = "sidekiq" ]; then
+      if sidekiq_status; then
+        log_success_msg "GitLab status: sidekiq is running"
+      else 
+        log_failure_msg "GitLab status: sidekiq is not running"
+        result=1
+      fi
+    else
+      exit 3
     fi
+
+    exit $result
     ;;
 
   *)
