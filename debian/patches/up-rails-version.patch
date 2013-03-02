@@ -1,4 +1,6 @@
-Update rails version from 3.2.11 to 3.2.12 due to security issues
+Description: Update rails version from 3.2.11 to 3.2.12 due to security issues
+ Applied upstream 06d9ccf, bf90898 + rebuilded Gemfile.lock.
+Last-Update: 2013-03-03
 
 diff --git a/Gemfile b/Gemfile
 index fc21146..1480ad5 100644
@@ -107,3 +109,175 @@ index 7bf31c9..bf067c8 100644
    rails-dev-tweaks
    rails_best_practices
    raphael-rails!
+diff --git a/app/controllers/public/projects_controller.rb b/app/controllers/public/projects_controller.rb
+index 4108fe5..b929b23 100644
+--- a/app/controllers/public/projects_controller.rb
++++ b/app/controllers/public/projects_controller.rb
+@@ -6,7 +6,7 @@ class Public::ProjectsController < ApplicationController
+   layout 'public'
+ 
+   def index
+-    @projects = Project.public
++    @projects = Project.public_only
+     @projects = @projects.includes(:namespace).order("namespaces.path, projects.name ASC").page(params[:page]).per(20)
+   end
+ end
+diff --git a/app/models/concerns/issuable.rb b/app/models/concerns/issuable.rb
+index 8872cf5..645b35e 100644
+--- a/app/models/concerns/issuable.rb
++++ b/app/models/concerns/issuable.rb
+@@ -19,12 +19,12 @@ module Issuable
+     validates :title, presence: true, length: { within: 0..255 }
+     validates :closed, inclusion: { in: [true, false] }
+ 
+-    scope :opened, where(closed: false)
+-    scope :closed, where(closed: true)
++    scope :opened, -> { where(closed: false) }
++    scope :closed, -> { where(closed: true) }
+     scope :of_group, ->(group) { where(project_id: group.project_ids) }
+     scope :of_user_team, ->(team) { where(project_id: team.project_ids, assignee_id: team.member_ids) }
+     scope :assigned, ->(u) { where(assignee_id: u.id)}
+-    scope :recent, order("created_at DESC")
++    scope :recent, -> { order("created_at DESC") }
+ 
+     delegate :name,
+              :email,
+diff --git a/app/models/event.rb b/app/models/event.rb
+index d0ba615..97b1e33 100644
+--- a/app/models/event.rb
++++ b/app/models/event.rb
+@@ -42,8 +42,8 @@ class Event < ActiveRecord::Base
+   serialize :data
+ 
+   # Scopes
+-  scope :recent, order("created_at DESC")
+-  scope :code_push, where(action: Pushed)
++  scope :recent, -> { order("created_at DESC") }
++  scope :code_push, -> { where(action: Pushed) }
+   scope :in_projects, ->(project_ids) { where(project_id: project_ids).recent }
+ 
+   class << self
+diff --git a/app/models/milestone.rb b/app/models/milestone.rb
+index 8b4c895..457fe18 100644
+--- a/app/models/milestone.rb
++++ b/app/models/milestone.rb
+@@ -20,8 +20,8 @@ class Milestone < ActiveRecord::Base
+   has_many :issues
+   has_many :merge_requests
+ 
+-  scope :active, where(closed: false)
+-  scope :closed, where(closed: true)
++  scope :active, -> { where(closed: false) }
++  scope :closed, -> { where(closed: true) }
+ 
+   validates :title, presence: true
+   validates :project, presence: true
+diff --git a/app/models/namespace.rb b/app/models/namespace.rb
+index 547d383..4e15783 100644
+--- a/app/models/namespace.rb
++++ b/app/models/namespace.rb
+@@ -30,7 +30,7 @@ class Namespace < ActiveRecord::Base
+   after_commit :update_gitolite, on: :update, if: :require_update_gitolite
+   after_destroy :rm_dir
+ 
+-  scope :root, where('type IS NULL')
++  scope :root, -> { where('type IS NULL') }
+ 
+   attr_accessor :require_update_gitolite
+ 
+diff --git a/app/models/note.rb b/app/models/note.rb
+index ded126b..97f6bf6 100644
+--- a/app/models/note.rb
++++ b/app/models/note.rb
+@@ -43,8 +43,8 @@ class Note < ActiveRecord::Base
+ 
+   # Scopes
+   scope :for_commit_id, ->(commit_id) { where(noteable_type: "Commit", commit_id: commit_id) }
+-  scope :inline, where("line_code IS NOT NULL")
+-  scope :not_inline, where("line_code IS NULL")
++  scope :inline, -> { where("line_code IS NOT NULL") }
++  scope :not_inline, -> { where("line_code IS NULL") }
+ 
+   scope :common, ->{ where(noteable_type: ["", nil]) }
+   scope :fresh, ->{ order("created_at ASC, id ASC") }
+diff --git a/app/models/project.rb b/app/models/project.rb
+index 8c74774..acc1b8d 100644
+--- a/app/models/project.rb
++++ b/app/models/project.rb
+@@ -86,7 +86,7 @@ class Project < ActiveRecord::Base
+   scope :sorted_by_activity, ->() { order("(SELECT max(events.created_at) FROM events WHERE events.project_id = projects.id) DESC") }
+   scope :personal, ->(user) { where(namespace_id: user.namespace_id) }
+   scope :joined, ->(user) { where("namespace_id != ?", user.namespace_id) }
+-  scope :public, where(public: true)
++  scope :public_only, -> { where(public: true) }
+ 
+   class << self
+     def abandoned
+diff --git a/app/models/snippet.rb b/app/models/snippet.rb
+index 806d346..c4ee35e 100644
+--- a/app/models/snippet.rb
++++ b/app/models/snippet.rb
+@@ -31,9 +31,9 @@ class Snippet < ActiveRecord::Base
+   validates :content, presence: true
+ 
+   # Scopes
+-  scope :fresh, order("created_at DESC")
+-  scope :non_expired, where(["expires_at IS NULL OR expires_at > ?", Time.current])
+-  scope :expired, where(["expires_at IS NOT NULL AND expires_at < ?", Time.current])
++  scope :fresh, -> { order("created_at DESC") }
++  scope :non_expired, -> { where(["expires_at IS NULL OR expires_at > ?", Time.current]) }
++  scope :expired, -> { where(["expires_at IS NOT NULL AND expires_at < ?", Time.current]) }
+ 
+   def self.content_types
+     [
+diff --git a/app/models/user.rb b/app/models/user.rb
+index 5b0df09..8c1a8b4 100644
+--- a/app/models/user.rb
++++ b/app/models/user.rb
+@@ -87,10 +87,10 @@ class User < ActiveRecord::Base
+   delegate :path, to: :namespace, allow_nil: true, prefix: true
+ 
+   # Scopes
+-  scope :admins, where(admin:  true)
+-  scope :blocked, where(blocked:  true)
+-  scope :active, where(blocked:  false)
+-  scope :alphabetically, order('name ASC')
++  scope :admins, -> { where(admin:  true) }
++  scope :blocked, -> { where(blocked:  true) }
++  scope :active, -> { where(blocked:  false) }
++  scope :alphabetically, -> { order('name ASC') }
+   scope :in_team, ->(team){ where(id: team.member_ids) }
+   scope :not_in_team, ->(team){ where('users.id NOT IN (:ids)', ids: team.member_ids) }
+   scope :potential_team_members, ->(team) { team.members.any? ? active.not_in_team(team) : active  }
+diff --git a/app/models/users_project.rb b/app/models/users_project.rb
+index dd8ceb9..486aaa6 100644
+--- a/app/models/users_project.rb
++++ b/app/models/users_project.rb
+@@ -35,10 +35,10 @@ class UsersProject < ActiveRecord::Base
+ 
+   delegate :name, :username, :email, to: :user, prefix: true
+ 
+-  scope :guests, where(project_access: GUEST)
+-  scope :reporters, where(project_access: REPORTER)
+-  scope :developers, where(project_access: DEVELOPER)
+-  scope :masters, where(project_access: MASTER)
++  scope :guests, -> { where(project_access: GUEST) }
++  scope :reporters, -> { where(project_access: REPORTER) }
++  scope :developers, -> { where(project_access: DEVELOPER) }
++  scope :masters,  -> { where(project_access: MASTER) }
+ 
+   scope :in_project, ->(project) { where(project_id: project.id) }
+   scope :in_projects, ->(projects) { where(project_id: project_ids) }
+diff --git a/spec/factories.rb b/spec/factories.rb
+index 0e0c04f..ae9066c 100644
+--- a/spec/factories.rb
++++ b/spec/factories.rb
+@@ -123,7 +123,7 @@ FactoryGirl.define do
+   factory :event do
+     factory :closed_issue_event do
+       project
+-      action Event::Closed
++      action { Event::Closed }
+       target factory: :closed_issue
+       author factory: :user
+     end
