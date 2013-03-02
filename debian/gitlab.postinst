@@ -122,7 +122,7 @@ case "$1" in
 
       # setup database
       echo "Configuring gitlab..."
-      exec_rake gitlab:app:setup
+      exec_rake gitlab:setup
 
     else
       echo "Upgrading gitlab..."
