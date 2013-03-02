@@ -1,0 +1,32 @@
+diff --git a/Gemfile b/Gemfile
+index 96b5bb6..229d77f 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -64,6 +64,7 @@ gem "six"
+ gem "ffaker"
+ 
+ # Seed data
++gem "psych"
+ gem "seed-fu"
+ 
+ # Markdown to HTML
+diff --git a/Gemfile.lock b/Gemfile.lock
+index 7bf31c9..52c200d 100644
+--- a/Gemfile.lock
++++ b/Gemfile.lock
+@@ -309,6 +309,7 @@ GEM
+       coderay (~> 1.0.5)
+       method_source (~> 0.8)
+       slop (~> 3.3.1)
++    psych (1.3.4)
+     pyu-ruby-sasl (0.0.3.3)
+     quiet_assets (1.0.1)
+       railties (~> 3.1)
+@@ -522,6 +523,7 @@ DEPENDENCIES
+   pg
+   poltergeist!
+   pry
++  psych
+   pygments.rb!
+   quiet_assets (~> 1.0.1)
+   rack-mini-profiler

@@ -1,4 +1,5 @@
 add-sqlite3-support.patch
+add-ruby1.9.2-support.patch
 use-system-libraries.patch
 up-rails-version.patch
 change-version.patch
