@@ -1,6 +1,9 @@
 gitlab (4.2.0-1) UNRELEASED; urgency=low
 
   * New upstream release.
+  * Use one init script for all daemons.
+  * Add /etc/default/gitlab.
+  * Add MySQL support.
 
  -- Alexander Golovko <alexandro@ankalagon.ru>  Sat, 02 Mar 2013 02:29:05 +0400
 
