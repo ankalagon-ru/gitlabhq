@@ -14,7 +14,7 @@ override_dh_auto_build:
 	  gemspecs=$$(dpkg -L $$pkg |grep /usr/share/rubygems-integration/1.9.1/specifications/.*.gemspec); \
 		[ -z "$$gemspecs" ] || ln -s $$gemspecs vendor/bundle/ruby/1.9.1/specifications/; \
 	done
-	GIT_SSL_NO_VERIFY=true ruby1.9.1 $(shell which bundle) install --without development test postgres mysql --deployment
+	GIT_SSL_NO_VERIFY=true ruby1.9.1 $(shell which bundle) install --without development test postgres --deployment
 	sed -i -e 's/python2/python/' vendor/bundle/ruby/1.9.1/bundler/gems/pygments.rb-*/lib/pygments/mentos.py
 	rm -rf vendor/bundle/ruby/1.9.1/cache
 
