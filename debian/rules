@@ -2,7 +2,7 @@
 
 #export DH_VERBOSE=1
 
-SYSTEM_GEMS := ruby-eventmachine ruby-sqlite3 ruby-charlock-holmes bundler
+SYSTEM_GEMS := ruby-eventmachine ruby-sqlite3 ruby-mysql2 ruby-charlock-holmes bundler
 
 
 %:
