@@ -5,6 +5,7 @@ gitlab (4.2.0-1) unstable; urgency=low
   * Add /etc/default/gitlab.
   * Add MySQL support.
   * Fix required redis-server version.
+  * Add to init script ability to execute rake.
 
  -- Alexander Golovko <alexandro@ankalagon.ru>  Sat, 02 Mar 2013 02:29:05 +0400
 
