@@ -24,3 +24,21 @@ tested enough:
  - copy /home/git into /var/lib/git
  - copy sqlite3 database
  - check configfiles
+
+
+2. Migrating from sqlite3 to mysql.
+
+ - Stop GitLab.
+ - Extract data from SQLite database:
+    invoke-rc.d gitlab rake db:data:dump
+ - Configure MySQL
+ - Update /etc/gitlab/database.yml (see examples in /usr/share/doc/gitlab)
+ - Setup database tables: 
+    invoke-rc.d gitlab rake db:setup
+ - Load data extracted from SQLite:
+    invoke-rc.d gitlab rake db:data:load
+ - Start GitLab and test if all ok. On errors restore old config and restart
+   GitLab.
+ - Delete your /var/lib/gitlab/production.sqlite files, if all ok.
+
+For details see https://github.com/gitlabhq/gitlabhq/wiki/Migrate-from-SQLite-to-MySQL

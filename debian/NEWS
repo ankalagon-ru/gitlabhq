@@ -1,3 +1,14 @@
+gitlab (4.2.0-1) unstable; urgency=low
+
+  Significant changes since versions before 4.2.0-1:
+
+  * Sqlite3 is deprecated by upstream.
+    You can use it for small installation, but for environments with many
+    concurent requests please migrate to mysql. See instrunctions in 
+    README.Debian
+
+ -- Alexander Golovko <alexandro@ankalagon.ru>  Sun, 03 Mar 2013 03:54:44 +0400
+
 gitlab (4.0.0-2) unstable; urgency=low
 
   Significant changes since versions before 4.0.0-2:
