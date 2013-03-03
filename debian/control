@@ -15,7 +15,7 @@ Package: gitlab
 Architecture: all
 Pre-Depends: adduser
 Depends: ${shlibs:Depends}, ${misc:Depends}, ruby1.9.1 (>= 1.9.2), bundler,
- gitolite (>= 2.3), exim4 | mail-transport-agent, redis-server,
+ gitolite (>= 2.3), exim4 | mail-transport-agent, redis-server (>= 2.4),
  gitlab-bundle (= ${binary:Version})
 Description: Self Hosted Git Management.
  Fast, secure and stable solution based on Ruby on Rails & Gitolite. 
